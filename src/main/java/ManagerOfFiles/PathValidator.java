@@ -21,4 +21,14 @@ public class PathValidator {
         }
         return Files.exists(file.toPath());
     }
+
+    public boolean ValidateForCreate(String path) {
+        File file = new File(path);
+        if(file.canRead() && file.isFile()){
+            return true;
+        }else{
+            System.out.println("Нельзя читать");
+            return false;
+        }
+    }
 }

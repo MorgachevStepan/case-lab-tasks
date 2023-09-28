@@ -1,5 +1,6 @@
 package ManagerOfFiles;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Validator validator = new Validator();
-        CommandCenter commandCenter = new CommandCenter();
+        CommandCenter commandCenter = new CommandCenter(new PathValidator());
         List<String> command = null;
         boolean stop = false;
         while (!stop){
@@ -24,7 +25,15 @@ public class Main {
             stop =  validator.Validate(command);
         }
 
-        commandCenter.makeCommand(command.get(0), command.get(1));
+        while(!commandCenter.makeCommand(command.get(0), command.get(1))){
+            System.out.println("Попробуйте еще раз");
+            stop = false;
+            while (!stop){
+                System.out.println("Введите комманду");
+                command = getCommand();
+                stop =  validator.Validate(command);
+            }
+        }
     }
 
     private static List<String> getCommand(){
