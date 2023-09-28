@@ -1,9 +1,6 @@
 package ManagerOfFiles;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -18,7 +15,7 @@ public class CommandCenter {
         this.pathValidator = pathValidator;
     }
 
-    public boolean makeCommand(String path, String command) {
+    public boolean makeCommand(String path, String command, String thirdArgument) {
         boolean isSuccessful = false;
         if(command.equals(Commands.CREATE.getCommand())){
             isSuccessful = makeCreate(path);
@@ -27,9 +24,25 @@ public class CommandCenter {
         }else if(command.equals(Commands.REMOVE.getCommand())){
             isSuccessful = makeRemove(path);
         }else{
-            //makeWrite(path);
+            isSuccessful = makeWrite(path, thirdArgument);
         }
         return isSuccessful;
+    }
+
+    private boolean makeWrite(String path, String thirdArgument) {
+        boolean canWrite = pathValidator.ValidateForWrite(path);
+        boolean validArgument = pathValidator.ValidateThirdArgument(thirdArgument);
+        if(canWrite && validArgument){
+            try (BufferedWriter writer = new BufferedWriter(new PrintWriter(new FileWriter(path, true)))){
+                writer.write(thirdArgument.substring(1, thirdArgument.length() - 1));
+                System.out.println("Запись в файл прошла успешно");
+                return true;
+            }catch (IOException ioException){
+                System.err.println("Не удалось записать в файл");
+                return false;
+            }
+        }
+        return false;
     }
 
     private boolean makeRemove(String path) {

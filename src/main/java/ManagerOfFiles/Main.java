@@ -18,14 +18,27 @@ public class Main {
         Validator validator = new Validator();
         CommandCenter commandCenter = new CommandCenter(new PathValidator());
         List<String> command = null;
+        String thirdArgument = "";
         boolean stop = false;
+        boolean isWrite = false;
         while (!stop){
             System.out.println("Введите комманду");
             command = getCommand();
+            if(command.size() > 2){
+                isWrite = true;
+            }
             stop =  validator.Validate(command);
         }
 
-        while(!commandCenter.makeCommand(command.get(0), command.get(1))){
+        if(isWrite){
+            thirdArgument += command.get(2);
+            for(int i = 3; i < command.size(); i++) {
+                thirdArgument += " ";
+                thirdArgument += command.get(i);
+            }
+        }
+
+        while(!commandCenter.makeCommand(command.get(0), command.get(1), thirdArgument)){
             System.out.println("Попробуйте еще раз");
             stop = false;
             while (!stop){

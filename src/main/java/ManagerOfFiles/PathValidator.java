@@ -31,4 +31,23 @@ public class PathValidator {
             return false;
         }
     }
+
+    public boolean ValidateForWrite(String path) {
+        File file = new File(path);
+        if(file.canWrite() && file.isFile()){
+            return true;
+        }else{
+            System.out.println("Нельзя писать");
+            return false;
+        }
+    }
+
+    public boolean ValidateThirdArgument(String thirdArgument) {
+        if(thirdArgument == null || thirdArgument.length() < 3 || thirdArgument.charAt(0) != '\"'
+                || thirdArgument.charAt(thirdArgument.length() - 1) != '\"'){
+            System.out.println("Введите текст третьим аргументом вида: \"Ваш текст\"");
+            return false;
+        }
+        return true;
+    }
 }

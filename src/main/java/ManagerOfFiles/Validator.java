@@ -17,8 +17,8 @@ public class Validator {
 
     public boolean Validate(List<String> command){
         boolean result = true;
-        if(command.size() > 3 || command.size() < 2) {
-            System.out.println("Введите корректную команду");
+        if(command.size() < 2) {
+            System.out.println("Введите корректную команду: должно быть, как минимум два аргумента через пробел");
             return false;
         }
         result &= pathValidator.ValidatePath(command.get(0));
