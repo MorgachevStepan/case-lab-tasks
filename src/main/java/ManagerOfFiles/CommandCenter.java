@@ -16,7 +16,14 @@ public class CommandCenter {
     }
 
     public boolean makeCommand(String path, String command, String thirdArgument) {
-        boolean isSuccessful = false;
+        boolean isSuccessful;
+
+        if(!command.equals(Commands.WRITE.getCommand()) && thirdArgument != ""){
+            System.out.println(thirdArgument);
+            System.out.println("Вы добавили лишний аргумент");
+            return false;
+        }
+
         if(command.equals(Commands.CREATE.getCommand())){
             isSuccessful = makeCreate(path);
         }else if (command.equals(Commands.READ.getCommand())){
