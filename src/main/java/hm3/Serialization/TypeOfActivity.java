@@ -1,4 +1,4 @@
-package Serialization;
+package hm3.Serialization;
 
 /**
  * @author Stepan Morgachev

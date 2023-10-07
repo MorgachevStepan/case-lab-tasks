@@ -1,4 +1,4 @@
-package ManagerOfFiles;
+package hm3.ManagerOfFiles;
 
 /**
  * @author Stepan Morgachev

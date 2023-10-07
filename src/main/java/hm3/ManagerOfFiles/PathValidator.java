@@ -1,4 +1,4 @@
-package ManagerOfFiles;
+package hm3.ManagerOfFiles;
 
 import java.io.File;
 import java.nio.file.Files;

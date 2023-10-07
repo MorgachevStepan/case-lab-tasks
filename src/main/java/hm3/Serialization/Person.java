@@ -1,4 +1,4 @@
-package Serialization;
+package hm3.Serialization;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

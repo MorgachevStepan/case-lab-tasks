@@ -1,4 +1,4 @@
-package Java8;
+package hm3.Java8;
 
 import java.util.AbstractMap;
 import java.util.Arrays;

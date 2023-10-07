@@ -1,4 +1,4 @@
-package ManagerOfFiles;
+package hm3.ManagerOfFiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
