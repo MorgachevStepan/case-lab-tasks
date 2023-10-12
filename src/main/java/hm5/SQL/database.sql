@@ -56,6 +56,20 @@ records.r_result (
 	ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS
+records.r_personal_records(
+	sportsman_id integer NOT NULL,
+	discipline_id integer NOT NULL,
+	personal_record decimal NOT NULL,
+	PRIMARY KEY (sportsman_id, discipline_id),
+	FOREIGN KEY (sportsman_id)
+	REFERENCES records.r_sportsman(sportsman_id)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (discipline_id)
+	REFERENCES records.r_discipline(discipline_id)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 INSERT INTO records.r_discipline (discipline_description, world_record, set_date) VALUES ('50m freestyle. Men (25m pool)', 20.16, '2020-11-21');
 INSERT INTO records.r_discipline (discipline_description, world_record, set_date) VALUES ('100m freestyle. Men (25m pool)', 44.84, '2021-10-29');
 INSERT INTO records.r_discipline (discipline_description, world_record, set_date) VALUES ('200m freestyle. Men (25m pool)', 99.37, '2009-11-15');
@@ -120,3 +134,30 @@ INSERT INTO records.r_result (competition_id, discipline_id, sportsman_id, resul
 INSERT INTO records.r_result (competition_id, discipline_id, sportsman_id, result) VALUES (1, 11, 7, 48.08);
 INSERT INTO records.r_result (competition_id, discipline_id, sportsman_id, result) VALUES (1, 10, 7, 21.98);
 INSERT INTO records.r_result (competition_id, discipline_id, sportsman_id, result) VALUES (1, 12, 7, 108.76);
+
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (1, 1, 20.99);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (1, 2, 46.52);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (1, 6, 24.01);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (1, 9, 22.60);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (2, 1, 20.31);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (2, 2, 44.95);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (2, 12, 25.51);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (2, 13, 56.33);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (2, 9, 22.17);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (3, 1, 20.98);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (3, 2, 46.11);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (5, 2, 46.13);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (5, 3, 102.26);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (6, 2, 48.42);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (6, 3, 104.80);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (6, 4, 221.53);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (7, 1, 21.05);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (7, 2, 45.78);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (7, 3, 101.45);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (7, 9, 21.95);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (7, 10, 48.08);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (10, 3, 110.96);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (10, 4, 226.29);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (10, 5, 459.37);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (12, 6, 24.24);
+INSERT INTO records.r_personal_records (sportsman_id, discipline_id, personal_record) VALUES (12, 7, 52.26);
