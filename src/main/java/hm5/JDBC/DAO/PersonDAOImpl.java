@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -23,7 +24,14 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public void create(Person person) {
+    public boolean create(Person person) {
+        if(isExist(person.getId())){
+            System.out.println("Запись с таким идентификатором существует");
+            return false;
+        }
+
+        boolean result = false;
+
         String expression = "INSERT INTO person (id, first_name, last_name, age, date_of_birth) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(expression);
@@ -33,17 +41,25 @@ public class PersonDAOImpl implements PersonDAO{
             preparedStatement.setInt(4, person.getAge());
             preparedStatement.setDate(5, person.getDateOfBirth());
 
-            int result = preparedStatement.executeUpdate();
-
-            System.out.println("Была добавлена " + result + " строка");
+            if(preparedStatement.executeUpdate() == 1){
+                result = true;
+                System.out.println("Была добавлена 1 строка");
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
+        return result;
+    }
+
+    private boolean isExist(int id) {
+        return read(id).getId() != -1;
     }
 
     @Override
     public Person read(int id) {
         Person person = new Person();
+        person.setId(-1);
         String expression = "SELECT * FROM person WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(expression);
@@ -63,11 +79,21 @@ public class PersonDAOImpl implements PersonDAO{
             System.err.println(e.getMessage());
         }
 
+        if(person.getId() == -1){
+            System.out.println("Записи с таким идентификатором не существует");
+        }
+
         return person;
     }
 
     @Override
-    public void update(Person person) {
+    public boolean update(Person person) {
+        if(!isExist(person.getId())){
+            System.out.println("Записи с таким идентификатором не существует");
+            return false;
+        }
+        boolean result = false;
+
         String expression = "UPDATE person SET first_name = ?, last_name = ?, age = ?, date_of_birth = ? WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(expression);
@@ -77,28 +103,40 @@ public class PersonDAOImpl implements PersonDAO{
             preparedStatement.setDate(4, person.getDateOfBirth());
             preparedStatement.setInt(5, person.getId());
 
-            int result = preparedStatement.executeUpdate();
-
-            System.out.println("Была обновлена " + result + " строка");
-
+            if(preparedStatement.executeUpdate() == 1){
+                result = true;
+                System.out.println("Была обновлена 1 строка");
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
+        return result;
     }
 
     @Override
-    public void delete(Person person) {
+    public boolean delete(Person person) {
+        if(!isExist(person.getId())){
+            System.out.println("Записи с таким идентификатором не существует");
+            return false;
+        }
+
+        boolean result = false;
+
         String expression = "DELETE FROM person WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(expression);
             preparedStatement.setInt(1, person.getId());
 
-            int result = preparedStatement.executeUpdate();
-
-            System.out.println("Была удалена " + result + " строка");
+            if(preparedStatement.executeUpdate() == 1) {
+                System.out.println("Была удалена 1 строка");
+                result = true;
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
+        return result;
     }
 
     @Override
@@ -108,7 +146,7 @@ public class PersonDAOImpl implements PersonDAO{
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(expression);
-            preparedStatement.setInt(1, pageSize);
+            preparedStatement.setInt(1, pageSize + 1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
@@ -123,7 +161,7 @@ public class PersonDAOImpl implements PersonDAO{
             }
 
             if(isSorted) {
-                result.stream().sorted(Comparator.comparing(Person::getAge)).collect(Collectors.toList());
+                result = result.stream().sorted(Comparator.comparing(Person::getAge)).collect(Collectors.toList());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
