@@ -110,3 +110,75 @@ WHERE sportsman_id IN (
     FROM records.r_sportsman
     WHERE year_of_birth = 2001
 );
+
+ -- Выберите города проведения соревнований, где результаты принадлежат множеству {13, 25, 17, 21.10}.
+SELECT DISTINCT c.city
+FROM records.r_competition c
+JOIN records.r_result r ON c.competition_id = r.competition_id
+WHERE r.result IN (13, 25, 17, 21.10);
+
+--Выберите имена всех спортсменов, у которых год рождения 1991 и разряд не принадлежит множеству {'AA', 'AAA', 'A'}.
+SELECT sportsman_name
+FROM records.r_sportsman
+WHERE year_of_birth = 1991 AND rank NOT IN ('AA', 'AAA', 'A');
+
+-- Вычислите максимальный результат, полученный в Winsdor.
+SELECT MAX(result) AS max_result
+FROM records.r_result r
+JOIN records.r_competition c ON r.competition_id = c.competition_id
+WHERE c.city = 'Winsdor';
+
+--Измените страну у спортсменов, у которых разряд равен AAA или AAAA, с Италии на Россию.
+UPDATE records.r_sportsman
+SET country = 'Russia'
+WHERE rank IN ('AAAA', 'AAA') AND country = 'Italy';
+
+--Измените разряд на 1 тех спортсменов, у которых личный рекорд совпадает с мировым.
+UPDATE records.r_sportsman
+SET rank = '1'
+WHERE sportsman_id IN (
+    SELECT s.sportsman_id
+    FROM records.r_sportsman s
+    JOIN records.r_personal_records pr ON s.sportsman_id = pr.sportsman_id
+    JOIN records.r_discipline d ON pr.discipline_id = d.discipline_id
+    WHERE pr.personal_record = d.world_record
+);
+
+--Увеличьте мировой результат на 2 с для соревнований ранее 20-03-2005.
+UPDATE records.r_discipline
+SET world_record = world_record + 2
+WHERE set_date < '2005-03-20';
+
+--Уменьшите результаты на 2 с соревнований, которые проводились 20-05-2012 и показанный результат не менее 45 с.
+UPDATE records.r_result
+SET result = result - 2
+WHERE competition_id IN (
+    SELECT competition_id
+    FROM records.r_competition
+    WHERE hold_date = '2012-05-20'
+) AND result >= 45;
+
+--Выберите названия всех соревнований, у которых мировой рекорд равен 20.99 с и дата установки рекорда не равна 12-02-2015.
+SELECT c.competition_name
+FROM records.r_competition c
+JOIN records.r_competitions_disciplines cd ON c.competition_id = cd.competition_id
+JOIN records.r_discipline d ON cd.discipline_id = d.discipline_id
+WHERE d.world_record = 20.99 AND d.set_date <> '2015-02-12';
+
+--Удалите все соревнования, у которых результат равен 20 с.
+DELETE FROM records.r_competition
+WHERE competition_id IN (
+    SELECT r.competition_id
+    FROM records.r_result r
+    WHERE r.result = 20
+);
+
+--Вычислите возраст спортсменов, которые участвовали в соревнованиях в Москве.
+SELECT AVG(s.year_of_birth) AS average_age
+FROM records.r_sportsman s
+WHERE s.sportsman_id IN (
+    SELECT DISTINCT r.sportsman_id
+    FROM records.r_competition c
+    JOIN records.r_result r ON c.competition_id = r.competition_id
+    WHERE c.city = 'Winsdor'
+);

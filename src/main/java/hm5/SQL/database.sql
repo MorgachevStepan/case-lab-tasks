@@ -35,7 +35,8 @@ records.r_sportsman(
 	sportsman_id serial PRIMARY KEY,
 	sportsman_name varchar NOT NULL,
 	year_of_birth integer NOT NULL,
-	country varchar NOT NULL
+	country varchar NOT NULL,
+	rank varchar NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS
@@ -104,18 +105,18 @@ INSERT INTO records.r_competitions_disciplines (competition_id, discipline_id) V
 INSERT INTO records.r_competitions_disciplines (competition_id, discipline_id) VALUES (1, 13);
 INSERT INTO records.r_competitions_disciplines (competition_id, discipline_id) VALUES (1, 14);
 
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Jesse Puts', 1994, 'Netherlands');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Vladimir Victorovish Morozov', 1992, 'Russia');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Simonas Bilis', 1993, 'Lithuania');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Shinri Shioura', 1991, 'Japan');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Tommaso D Orsogna', 1990, 'Australia');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Park Tae-hwan', 1989, 'South Korea');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Chad le Clos', 1992, 'Mauritius');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Aleksandr Vladimirovich Krasnykh', 1995, 'Russia');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Péter Bernek', 1992, 'Hungary');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Gregorio Paltrinieri', 1994, 'Italy');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Wojciech Wojdak', 1996, 'Poland');
-INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country) VALUES ('Junya Koga', 1987, 'Japan');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Jesse Puts', 1994, 'Netherlands', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Vladimir Victorovish Morozov', 1992, 'Russia', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Simonas Bilis', 1993, 'Lithuania', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Shinri Shioura', 1991, 'Japan', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Tommaso D Orsogna', 1990, 'Australia', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Park Tae-hwan', 1989, 'South Korea', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Chad le Clos', 1992, 'Mauritius', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Aleksandr Vladimirovich Krasnykh', 1995, 'Russia', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Péter Bernek', 1992, 'Hungary', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Gregorio Paltrinieri', 1994, 'Italy', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Wojciech Wojdak', 1996, 'Poland', 'AAAA');
+INSERT INTO records.r_sportsman (sportsman_name, year_of_birth, country, rank) VALUES ('Junya Koga', 1987, 'Japan', 'AAAA');
 
 INSERT INTO records.r_result (competition_id, discipline_id, sportsman_id, result) VALUES (1, 1, 1, 21.10);
 INSERT INTO records.r_result (competition_id, discipline_id, sportsman_id, result) VALUES (1, 1, 2, 21.14);
