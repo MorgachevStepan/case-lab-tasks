@@ -1,6 +1,6 @@
 package hm5.Hibernate.DAO;
 
-import hm5.JDBC.Models.Person;
+import hm5.Hibernate.Models.Person;
 
 import java.util.List;
 

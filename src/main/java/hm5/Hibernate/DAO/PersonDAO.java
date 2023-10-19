@@ -1,9 +1,10 @@
 package hm5.Hibernate.DAO;
 
-import hm5.JDBC.Models.Person;
+import hm5.Hibernate.Models.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -19,40 +20,113 @@ public class PersonDAO implements HQLPersonDAO, CriteriaPersonDAO{
     }
 
     @Override
-    public boolean createHQL(Person person) {
+    public void createHQL(Person person) {
         Transaction transaction = null;
         try(Session session = sessionFactory.openSession()){
             transaction = session.beginTransaction();
-            String hql = "INSERT INTO person";
+            String hql = "INSERT INTO Person (id, firstName, lastName, age, dateOfBirth) " +
+                    "VALUES (:id, :firstName, :lastName, :age, :dateOfBirth)";
+            session.createQuery(hql)
+                    .setParameter("id", person.getId())
+                    .setParameter("firstName", person.getFirstName())
+                    .setParameter("lastName", person.getLastName())
+                    .setParameter("age", person.getAge())
+                    .setParameter("dateOfBirth", person.getDateOfBirth())
+                    .executeUpdate();
 
+            transaction.commit();
         }
-
-        return false;
     }
 
     @Override
     public Person readHQL(int id) {
-        return null;
+        Transaction transaction = null;
+        Person person;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            String hql = "FROM Person p WHERE p.id =:id";
+            person = (Person) session.createQuery(hql)
+                    .setParameter("id", id)
+                    .uniqueResult();
+
+            transaction.commit();
+        }
+        return person;
     }
 
     @Override
-    public boolean updateHQL(Person person) {
-        return false;
+    public void updateHQL(Person person) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            String hql = "update Person p set p.firstName = :newFirstName, p.lastName = :newLastName" +
+                    ", p.age = :newAge, p.dateOfBirth = :newDateOfBirth where p.id = :id";
+            session.createQuery(hql)
+                    .setParameter("newFirstName", person.getFirstName())
+                    .setParameter("newLastName", person.getLastName())
+                    .setParameter("newAge", person.getAge())
+                    .setParameter("newDateOfBirth", person.getDateOfBirth())
+                    .setParameter("id", person.getId())
+                    .executeUpdate();
+
+            transaction.commit();
+        }
     }
 
     @Override
-    public boolean deleteHQL(Person person) {
-        return false;
+    public void deleteHQL(Person person) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            String hql = "delete Person p where p.id = :id";
+            session.createQuery(hql)
+                    .setParameter("id", person.getId())
+                    .executeUpdate();
+
+            transaction.commit();
+        }
     }
 
     @Override
     public List<Person> readAllHQL(int page, int pageSize, boolean isSorted) {
-        return null;
+        Transaction transaction = null;
+        List<Person> result;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            if(isSorted) {
+                String hql = "From Person Order by age";
+                Query query = session.createQuery(hql)
+                        .setFirstResult((page - 1) * pageSize)
+                        .setMaxResults(pageSize);
+                result = query.list();
+            }else{
+                String hql = "From Person";
+                Query query = session.createQuery(hql)
+                        .setFirstResult((page - 1) * pageSize)
+                        .setMaxResults(pageSize);
+                result = query.list();
+            }
+            transaction.commit();
+        }
+        return result;
     }
 
     @Override
     public List<Person> readAllHQL(boolean isSorted) {
-        return null;
+        Transaction transaction = null;
+        List<Person> result;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            String hql;
+            if(isSorted) {
+                hql = "From Person Order by age";
+            }else{
+                hql = "From Person";
+            }
+            result = session.createQuery(hql).list();
+            transaction.commit();
+        }
+        return result;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package hm5.Hibernate.DAO;
 
-import hm5.JDBC.Models.Person;
+import hm5.Hibernate.Models.Person;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import java.util.List;
  * @date 18.10.2023 14:43
  */
 public interface HQLPersonDAO {
-    boolean createHQL(Person person);
+    void createHQL(Person person);
     Person readHQL(int id);
-    boolean updateHQL(Person person);
-    boolean deleteHQL(Person person);
+    void updateHQL(Person person);
+    void deleteHQL(Person person);
     List<Person> readAllHQL(int page, int pageSize, boolean isSorted);
     List<Person> readAllHQL(boolean isSorted);
 }
