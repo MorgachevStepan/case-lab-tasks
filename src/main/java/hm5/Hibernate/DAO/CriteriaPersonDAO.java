@@ -9,10 +9,10 @@ import java.util.List;
  * @date 18.10.2023 14:57
  */
 public interface CriteriaPersonDAO {
-    boolean createCriteria(Person person);
+    void createCriteria(Person person);
     Person readCriteria(int id);
-    boolean updateCriteria(Person person);
-    boolean deleteCriteria(Person person);
+    void updateCriteria(Person person);
+    void deleteCriteria(Person person);
     List<Person> readAllCriteria(int page, int pageSize, boolean isSorted);
     List<Person> readAllCriteria(boolean isSorted);
 }

@@ -34,7 +34,7 @@ public class Application {
         /*Person person = personDAO.readHQL(5);
         System.out.println(person);*/
 
-        //Обновление записи
+        //Обновление записи HQL
         /*Person person = new Person();
         person.setId(5);
         person.setFirstName("Maxim");
@@ -44,7 +44,7 @@ public class Application {
 
         personDAO.updateHQL(person);*/
 
-        //Удаление записи
+        //Удаление записи HQL
         /*Person person = new Person();
         person.setId(5);
         person.setFirstName("Maxim");
@@ -54,13 +54,47 @@ public class Application {
 
         personDAO.deleteHQL(person);*/
 
-        //Выборка с пагинаией и сортировкой
+        //Выборка с пагинаией и сортировкой HQL
         /*List<Person> personList = personDAO.readAllHQL(1, 3, true);
         for(Person person: personList)
             System.out.println(person);*/
 
-        //Выборка с сортировкой
+        //Выборка с сортировкой HQL
         /*List<Person> personList = personDAO.readAllHQL(true);
+        for(Person person: personList)
+            System.out.println(person);*/
+
+        //Чтение записи Criteria
+        /*Person person = personDAO.readCriteria(5);
+        System.out.println(person);*/
+
+        //Обновление Criteria
+        /*Person person = new Person();
+        person.setId(5);
+        person.setFirstName("Anatoliy");
+        person.setLastName("Raevskiy");
+        person.setAge(22);
+        person.setDateOfBirth(new Date(2001 - 1900, 10, 11));
+
+        personDAO.updateCriteria(person);*/
+
+        //Создание Criteria
+        /*Person person = new Person();
+        //person.setId(1);
+        person.setFirstName("Petr");
+        person.setLastName("Verhovenskiy");
+        person.setAge(24);
+        person.setDateOfBirth(new Date(1999 - 1900, 5, 19));
+
+        personDAO.createCriteria(person);*/
+
+        //Выборка с пагинаией и сортировкой Criteria
+        /*List<Person> personList = personDAO.readAllCriteria(1, 4, true);
+        for(Person person: personList)
+            System.out.println(person);*/
+
+        //Выборка с сотрировкой Criteria
+        /*List<Person> personList = personDAO.readAllCriteria(true);
         for(Person person: personList)
             System.out.println(person);*/
     }

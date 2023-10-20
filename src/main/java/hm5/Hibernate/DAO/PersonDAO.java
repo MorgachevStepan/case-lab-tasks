@@ -1,9 +1,12 @@
 package hm5.Hibernate.DAO;
 
 import hm5.Hibernate.Models.Person;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -130,32 +133,87 @@ public class PersonDAO implements HQLPersonDAO, CriteriaPersonDAO{
     }
 
     @Override
-    public boolean createCriteria(Person person) {
-        return false;
+    public void createCriteria(Person person) {
+        Transaction transaction = null;//TODO
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            session.save(person);
+            transaction.commit();
+        }
     }
 
     @Override
     public Person readCriteria(int id) {
-        return null;
+        Person result;
+        try(Session session = sessionFactory.openSession()){
+            result = (Person) session.createCriteria(Person.class)
+                    .add(Restrictions.eq("id", id))
+                    .uniqueResult();
+        }
+        return result;
     }
 
     @Override
-    public boolean updateCriteria(Person person) {
-        return false;
+    public void updateCriteria(Person updatedPerson) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            Person oldPerson = readCriteria(updatedPerson.getId());
+
+            if(oldPerson != null){
+                oldPerson.setFirstName(updatedPerson.getFirstName());
+                oldPerson.setLastName(updatedPerson.getLastName());
+                oldPerson.setAge(updatedPerson.getAge());
+                oldPerson.setDateOfBirth(updatedPerson.getDateOfBirth());
+
+                session.update(oldPerson);
+            }
+
+            transaction.commit();
+        }
     }
 
     @Override
-    public boolean deleteCriteria(Person person) {
-        return false;
+    public void deleteCriteria(Person person) {
+        try(Session session = sessionFactory.openSession()){
+            Transaction transaction = session.beginTransaction();
+            session.delete(person);
+            transaction.commit();
+        }
     }
 
     @Override
     public List<Person> readAllCriteria(int page, int pageSize, boolean isSorted) {
-        return null;
+        List<Person> result;
+
+        try(Session session = sessionFactory.openSession()){
+            Criteria criteria = session.createCriteria(Person.class);
+            if(isSorted) {
+                 criteria.addOrder(Order.asc("age"));
+            }
+
+            int start = (page - 1) * pageSize;
+            criteria.setFirstResult(start);
+            criteria.setMaxResults(pageSize);
+
+            result = criteria.list();
+        }
+
+        return result;
     }
 
     @Override
     public List<Person> readAllCriteria(boolean isSorted) {
-        return null;
+        List<Person> result;
+
+        try(Session session = sessionFactory.openSession()){
+            Criteria criteria = session.createCriteria(Person.class);
+            if(isSorted) {
+                criteria.addOrder(Order.asc("age"));
+            }
+            result = criteria.list();
+        }
+
+        return result;
     }
 }
